@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css" />
+		<title>Sudoku Generator</title>
+	</head>
+	<body onload="initBoardFill();">
+		<div class="content-container">
+			<h1>Sudoku Generator</h1>
+			<table id="sudoku-board"></table>
+			<div class="button-align">
+				<span><b>Filled spots</b></span>
+				<div id="filled-spots-value">30</div>
+				<input type="range" min="17" max="81" value="30" class="slider" id="fill-range">
+			</div>
+			<div class="button-align">
+				<button id="generate-button" onclick="resetBoard();generateBoard();displayBoard();">Generate</button>
+			</div>
+			<div class="button-align">
+				<button id="print-button" class="half-button" onclick="window.print();">Print</button>
+				<button id="share-button" class="half-button" onclick="window.print();">Share</button>
+			</div>
+		</div>
+		<script src="sudoku.js"></script>
+	</body>
+</html>
