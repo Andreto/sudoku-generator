@@ -6,10 +6,25 @@ var fillRange = document.getElementById("fill-range");
 
 const urlParams = new URLSearchParams(window.location.search);
 
-fillRange.addEventListener('input', function () {
+fillRange.addEventListener("input", function () {
     document.getElementById("filled-spots-value").innerHTML = fillRange.value;
     fillSpots = parseInt(fillRange.value);
 });
+
+function checkQueryId() {
+    if (urlParams.get("id")) {
+        var id = urlParams.get("id");
+        if (id.length == 81) {
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    board[i][j] = id.charAt(i*9 + j)
+                }
+            }
+            printBoard = board;
+            displayBoard();
+        }
+    }
+}
 
 function initBoardFill() {
     for (let i = 0; i < 9; i++) {
@@ -49,7 +64,16 @@ function getBoardId() {
             out += printBoard[i][j].toString();
         }
     }
-    console.log(out);
+    return(out);
+}
+
+function shareButton() {
+    var copyInput = document.getElementById("copy-link-text");
+    copyInput.value = "https://andreto.github.io/sudoku-generator/?id=" + getBoardId();
+    copyInput.select();
+    copyInput.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    document.getElementById("copy-confirm").style.visibility = "inherit";
 }
 
 function getValidFill(x, y, a) {
@@ -77,6 +101,7 @@ function getValidFill(x, y, a) {
 }
 
 function generateBoard() {
+    document.getElementById("copy-confirm").style.visibility = "hidden";
     var invalid = true;
     var loopCount = 0;
     var i;

@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="style.css" />
 		<title>Sudoku Generator</title>
 	</head>
-	<body onload="initBoardFill();">
+	<body onload="initBoardFill();checkQueryId();">
 		<div class="content-container">
 			<h1>Sudoku Generator</h1>
 			<table id="sudoku-board"></table>
@@ -20,9 +20,11 @@
 			</div>
 			<div class="button-align">
 				<button id="print-button" class="half-button" onclick="window.print();">Print</button>
-				<button id="share-button" class="half-button" onclick="window.print();">Share</button>
+				<button id="share-button" class="half-button" onclick="shareButton()">Share</button>
+				<div id="copy-confirm">Copied link to clipboard</div>
 			</div>
 		</div>
+		<input type="text" value="https://andreto.github.io/sudoku-generator/" id="copy-link-text">
 		<script src="sudoku.js"></script>
 	</body>
 </html>
