@@ -192,8 +192,8 @@ function filterBoard() {
                 }
             }
         }
-        console.log("dist", dist, "x", x,  "y", y, "val", val,  "i", i);
-        console.log(checkList);
+        //console.log("dist", dist, "x", x,  "y", y, "val", val,  "i", i);
+        //console.log(checkList);
         if (val != 0 && dist) {
             board[y][x] = 0;
             i++
