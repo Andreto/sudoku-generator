@@ -2,6 +2,7 @@
 
 var board = [];
 var printBoard;
+var solutionBoard = [];
 var fillSpots = 30;
 var boardElem = document.getElementById("sudoku-board");
 var fillRange = document.getElementById("fill-range");
@@ -53,8 +54,10 @@ function displayBoard() {
     for (let i = 0; i < 9; i++) {
         var tds = trs[i].querySelectorAll("td");
         for (let j = 0; j < 9; j++) {
-            if (printBoard[i][j] != 0) {
-                tds[j].innerHTML = printBoard[i][j];
+            if (board[i][j] != 0) {
+                tds[j].innerHTML = board[i][j];
+            } else {
+                tds[j].innerHTML = " ";
             }
         }
     }
@@ -73,7 +76,7 @@ function getBoardId() {
     var out = "";
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            out += printBoard[i][j].toString();
+            out += board[i][j].toString();
         }
     }
     return(out);
@@ -158,15 +161,50 @@ function generateBoard() {
     }
 
     // Board generation complete 
-    // Filling the board with generated values
     console.log("Tries made:", loopCount);
-    printBoard = board;
-    for (let i = 0; i < 81 - fillSpots;) {
-        var x = Math.floor(Math.random() * 9);
-        var y = Math.floor(Math.random() * 9);
-        if (printBoard[y][x] != 0) {
-            printBoard[y][x] = 0;
-            i++
+    solutionBoard = board;
+    filterBoard();
+}
+
+function filterBoard() {
+    // Filling the board with generated values
+    var checkList = [];
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            checkList.push(i.toString() + j.toString())
         }
     }
+
+    for (let i = 0; i < 81 - fillSpots;) {
+        var n = Math.floor(Math.random() * 100000) % checkList.length;
+        var x = parseInt(checkList[n].charAt(0));
+        var y = parseInt(checkList[n].charAt(1));
+
+        checkList = checkList.filter(e => e !== checkList[n]);
+
+        var val = board[y][x];
+        board[y][x] = 0;
+        var dist = true;
+        for (let ii = 1; ii <= 9; ii++) {
+            if (ii != val) {
+                if (getValidFill(x, y, ii)) {
+                    dist = false;
+                }
+            }
+        }
+        console.log("dist", dist, "x", x,  "y", y, "val", val,  "i", i);
+        console.log(checkList);
+        if (val != 0 && dist) {
+            board[y][x] = 0;
+            i++
+        } else {
+            board[y][x] = val;
+        }
+
+        if (checkList.length == 0) {
+            console.log("Failed Filtering")
+            i = 100;
+        }
+    }
+    printBoard = board;
 }
